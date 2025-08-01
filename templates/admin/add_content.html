@@ -1,0 +1,117 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Add New Content{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <div class="mb-6">
+        <a href="{{ url_for('admin_content') }}" class="text-blue-600 hover:text-blue-800 mb-4 inline-block">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Content Management
+        </a>
+        <h1 class="text-3xl font-bold text-gray-800">Add New Content</h1>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <form method="POST">
+                <div class="mb-6">
+                    <label for="key" class="block text-gray-700 font-semibold mb-2">Content Key *</label>
+                    <input type="text" id="key" name="key" required
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="e.g., hero_title, about_content, contact_phone">
+                    <p class="text-sm text-gray-500 mt-1">This is the identifier used in the website templates (no spaces, use underscores)</p>
+                </div>
+
+                <div class="mb-6">
+                    <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
+                    <input type="text" id="description" name="description"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Brief description of this content item">
+                    <p class="text-sm text-gray-500 mt-1">Optional description to help identify this content</p>
+                </div>
+
+                <div class="mb-6">
+                    <label for="value" class="block text-gray-700 font-semibold mb-2">Content Value *</label>
+                    <textarea id="value" name="value" rows="8" required
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              placeholder="Enter the content text here..."></textarea>
+                    <p class="text-sm text-gray-500 mt-1">This is the actual text that will appear on your website</p>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Preview</label>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <div class="text-gray-700" id="preview">Enter content above to see preview...</div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Live preview of how the content will appear</p>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <a href="{{ url_for('admin_content') }}" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add Content
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Common Content Keys Reference -->
+    <div class="bg-green-50 rounded-lg p-6 mt-6">
+        <h3 class="text-lg font-semibold text-green-800 mb-4">Common Content Keys</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="font-semibold text-green-700 mb-2">Hero Section</h4>
+                <ul class="text-sm text-green-600 space-y-1">
+                    <li><code class="bg-green-100 px-1 rounded">hero_title</code> - Main page headline</li>
+                    <li><code class="bg-green-100 px-1 rounded">hero_subtitle</code> - Main page description</li>
+                    <li><code class="bg-green-100 px-1 rounded">hero_button</code> - Call-to-action button text</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-green-700 mb-2">About Section</h4>
+                <ul class="text-sm text-green-600 space-y-1">
+                    <li><code class="bg-green-100 px-1 rounded">about_title</code> - About section title</li>
+                    <li><code class="bg-green-100 px-1 rounded">about_content</code> - About section content</li>
+                    <li><code class="bg-green-100 px-1 rounded">process_title</code> - Process section title</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-green-700 mb-2">Contact Information</h4>
+                <ul class="text-sm text-green-600 space-y-1">
+                    <li><code class="bg-green-100 px-1 rounded">contact_phone</code> - Phone number</li>
+                    <li><code class="bg-green-100 px-1 rounded">contact_email</code> - Email address</li>
+                    <li><code class="bg-green-100 px-1 rounded">contact_address</code> - Physical address</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold text-green-700 mb-2">Order Process</h4>
+                <ul class="text-sm text-green-600 space-y-1">
+                    <li><code class="bg-green-100 px-1 rounded">step1_desc</code> - Step 1 description</li>
+                    <li><code class="bg-green-100 px-1 rounded">step2_desc</code> - Step 2 description</li>
+                    <li><code class="bg-green-100 px-1 rounded">step3_desc</code> - Step 3 description</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Live preview functionality
+document.getElementById('value').addEventListener('input', function() {
+    const preview = document.getElementById('preview');
+    if (this.value.trim()) {
+        preview.textContent = this.value;
+    } else {
+        preview.textContent = 'Enter content above to see preview...';
+    }
+});
+
+// Auto-format key input
+document.getElementById('key').addEventListener('input', function() {
+    this.value = this.value.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,81 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Content - {{ content.key }}{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <div class="mb-6">
+        <a href="{{ url_for('admin_content') }}" class="text-blue-600 hover:text-blue-800 mb-4 inline-block">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Content Management
+        </a>
+        <h1 class="text-3xl font-bold text-gray-800">Edit Content</h1>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <form method="POST">
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Content Key</label>
+                    <input type="text" value="{{ content.key }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100" readonly>
+                    <p class="text-sm text-gray-500 mt-1">This is the identifier used in the website templates</p>
+                </div>
+
+                <div class="mb-6">
+                    <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
+                    <input type="text" id="description" name="description" value="{{ content.description or '' }}" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                           placeholder="Brief description of this content item">
+                    <p class="text-sm text-gray-500 mt-1">Optional description to help identify this content</p>
+                </div>
+
+                <div class="mb-6">
+                    <label for="value" class="block text-gray-700 font-semibold mb-2">Content Value</label>
+                    <textarea id="value" name="value" rows="8" 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              placeholder="Enter the content text here...">{{ content.value }}</textarea>
+                    <p class="text-sm text-gray-500 mt-1">This is the actual text that will appear on your website</p>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Preview</label>
+                    <div class="bg-gray-50 p-4 rounded-lg border">
+                        <div class="text-gray-700" id="preview">{{ content.value }}</div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Live preview of how the content will appear</p>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2">Last Updated</label>
+                    <div class="text-gray-600">{{ content.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <a href="{{ url_for('admin_content') }}" class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-save mr-2"></i>Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Content Usage Information -->
+    <div class="bg-blue-50 rounded-lg p-6 mt-6">
+        <h3 class="text-lg font-semibold text-blue-800 mb-4">Content Usage Information</h3>
+        <div class="text-blue-700">
+            <p class="mb-2"><strong>Content Key:</strong> <code class="bg-blue-100 px-2 py-1 rounded">{{ content.key }}</code></p>
+            <p class="mb-2">This content is used in your website templates with the variable: <code class="bg-blue-100 px-2 py-1 rounded">{{ "{{ site_content." + content.key + " }}" }}</code></p>
+            <p class="mb-2">You can also provide a fallback value: <code class="bg-blue-100 px-2 py-1 rounded">{{ "{{ site_content." + content.key + " or 'Default text' }}" }}</code></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Live preview functionality
+document.getElementById('value').addEventListener('input', function() {
+    document.getElementById('preview').textContent = this.value;
+});
+</script>
+{% endblock %} 

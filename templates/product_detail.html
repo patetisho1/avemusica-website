@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Artisan Woodworks{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="{{ url_for('index') }}" class="text-gray-700 hover:text-brown-600">
+                    <i class="fas fa-home mr-2"></i>
+                    Home
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                    <a href="#products" class="text-gray-700 hover:text-brown-600">Products</a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                    <span class="text-gray-500">{{ product.name }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Product Images -->
+        <div>
+            {% if product.image_url %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="{{ url_for('static', filename=product.image_url) }}" 
+                     alt="{{ product.name }}" 
+                     class="w-full h-96 object-cover">
+            </div>
+            {% else %}
+            <div class="bg-gray-200 rounded-lg shadow-md h-96 flex items-center justify-center">
+                <i class="fas fa-image text-6xl text-gray-400"></i>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Information -->
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ product.name }}</h1>
+            
+            <div class="flex items-center mb-6">
+                <span class="text-3xl font-bold text-brown-600">${{ "%.2f"|format(product.price) }}</span>
+                <span class="ml-4 px-3 py-1 rounded-full text-sm font-medium
+                    {% if product.stock > 0 %}
+                        bg-green-100 text-green-800
+                    {% else %}
+                        bg-red-100 text-red-800
+                    {% endif %}">
+                    {% if product.stock > 0 %}
+                        In Stock ({{ product.stock }} available)
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Description</h3>
+                <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
+            </div>
+
+            {% if product.category %}
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Category</h3>
+                <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                    {{ product.category }}
+                </span>
+            </div>
+            {% endif %}
+
+            <!-- Add to Cart Form -->
+            {% if product.stock > 0 %}
+            <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}" class="mb-6">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center border border-gray-300 rounded-lg">
+                        <label for="quantity" class="px-4 py-2 text-gray-700 font-medium">Quantity:</label>
+                        <input type="number" 
+                               id="quantity" 
+                               name="quantity" 
+                               value="1" 
+                               min="1" 
+                               max="{{ product.stock }}"
+                               class="w-20 px-3 py-2 border-0 focus:ring-2 focus:ring-brown-500 focus:outline-none">
+                    </div>
+                    <button type="submit" 
+                            class="btn-primary text-white px-8 py-3 rounded-lg font-semibold text-lg">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Add to Cart
+                    </button>
+                </div>
+            </form>
+            {% else %}
+            <div class="mb-6">
+                <button disabled class="w-full bg-gray-300 text-gray-500 px-8 py-3 rounded-lg font-semibold text-lg cursor-not-allowed">
+                    <i class="fas fa-times-circle mr-2"></i>
+                    Out of Stock
+                </button>
+            </div>
+            {% endif %}
+
+            <!-- Product Features -->
+            <div class="bg-gray-50 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Features</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>Handcrafted with premium materials</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>Unique, one-of-a-kind piece</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>Sustainable and eco-friendly</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>Lifetime craftsmanship guarantee</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products Section -->
+    <div class="mt-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8">You Might Also Like</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- This would be populated with related products -->
+            <div class="bg-white rounded-lg shadow-md p-4 text-center">
+                <div class="bg-gray-200 rounded-lg h-32 mb-4 flex items-center justify-center">
+                    <i class="fas fa-image text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="font-semibold text-gray-800 mb-2">Coming Soon</h3>
+                <p class="text-gray-600 text-sm mb-2">More handcrafted pieces</p>
+                <span class="text-brown-600 font-bold">$0.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

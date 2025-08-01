@@ -1,0 +1,147 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Content Management{% endblock %}
+
+{% block content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Content Management</h1>
+        <a href="{{ url_for('admin_add_content') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <i class="fas fa-plus mr-2"></i>Add New Content
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Site Content Overview</h2>
+            <p class="text-gray-600 mb-6">Manage all the text content on your website. Click on any item to edit it.</p>
+            
+            {% if content_items %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for content in content_items %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-semibold text-gray-800">{{ content.key }}</h3>
+                        <div class="flex space-x-2">
+                            <a href="{{ url_for('admin_edit_content', content_id=content.id) }}" 
+                               class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('admin_delete_content', content_id=content.id) }}" 
+                               class="text-red-600 hover:text-red-800"
+                               onclick="return confirm('Are you sure you want to delete this content?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    {% if content.description %}
+                    <p class="text-sm text-gray-500 mb-2">{{ content.description }}</p>
+                    {% endif %}
+                    
+                    <div class="text-sm text-gray-600 mb-2">
+                        <strong>Current Value:</strong>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded text-sm text-gray-700 max-h-20 overflow-y-auto">
+                        {{ content.value[:100] }}{% if content.value|length > 100 %}...{% endif %}
+                    </div>
+                    
+                    <div class="text-xs text-gray-400 mt-2">
+                        Last updated: {{ content.updated_at.strftime('%Y-%m-%d %H:%M') }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-12">
+                <i class="fas fa-file-alt text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-semibold text-gray-600 mb-2">No Content Items</h3>
+                <p class="text-gray-500 mb-6">Get started by adding your first content item.</p>
+                <a href="{{ url_for('admin_add_content') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Add First Content Item
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Add Section -->
+    <div class="bg-white rounded-lg shadow-md mt-6">
+        <div class="p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Quick Add Common Content</h2>
+            <p class="text-gray-600 mb-4">Add commonly used content items with one click:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <button onclick="addCommonContent('hero_title', 'Handcrafted Wooden Masterpieces', 'Main hero section title')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">Hero Title</div>
+                    <div class="text-sm">Main page headline</div>
+                </button>
+                
+                <button onclick="addCommonContent('hero_subtitle', 'Discover unique, beautifully crafted wooden products made with passion and precision. Each piece tells a story of craftsmanship and tradition.', 'Hero section subtitle')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">Hero Subtitle</div>
+                    <div class="text-sm">Main page description</div>
+                </button>
+                
+                <button onclick="addCommonContent('about_title', 'About Artisan Woodworks', 'About section title')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">About Title</div>
+                    <div class="text-sm">About section headline</div>
+                </button>
+                
+                <button onclick="addCommonContent('contact_phone', '+1 (555) 123-4567', 'Contact phone number')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">Phone Number</div>
+                    <div class="text-sm">Contact information</div>
+                </button>
+                
+                <button onclick="addCommonContent('contact_email', 'info@artisanwoodworks.com', 'Contact email address')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">Email Address</div>
+                    <div class="text-sm">Contact information</div>
+                </button>
+                
+                <button onclick="addCommonContent('step1_desc', 'We\'ll confirm your order within 24 hours', 'Step 1 description')" 
+                        class="bg-green-100 text-green-800 p-3 rounded-lg hover:bg-green-200 transition-colors text-left">
+                    <div class="font-semibold">Step 1 Description</div>
+                    <div class="text-sm">Order process step</div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function addCommonContent(key, value, description) {
+    if (confirm('Add this content item?')) {
+        // Create a form and submit it
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ url_for("admin_add_content") }}';
+        
+        const keyInput = document.createElement('input');
+        keyInput.type = 'hidden';
+        keyInput.name = 'key';
+        keyInput.value = key;
+        
+        const valueInput = document.createElement('input');
+        valueInput.type = 'hidden';
+        valueInput.name = 'value';
+        valueInput.value = value;
+        
+        const descInput = document.createElement('input');
+        descInput.type = 'hidden';
+        descInput.name = 'description';
+        descInput.value = description;
+        
+        form.appendChild(keyInput);
+        form.appendChild(valueInput);
+        form.appendChild(descInput);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+{% endblock %} 

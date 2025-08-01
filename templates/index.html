@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Artisan Woodworks - Handcrafted Wooden Products{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="brown-gradient text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-5xl font-bold mb-6">{{ site_content.hero_title or "Handcrafted Wooden Masterpieces" }}</h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto">{{ site_content.hero_subtitle or "Discover unique, beautifully crafted wooden products made with passion and precision. Each piece tells a story of craftsmanship and tradition." }}</p>
+        <a href="#products" class="bg-yellow-500 text-brown-800 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors">
+            {{ site_content.hero_button or "Explore Our Collection" }}
+        </a>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section id="products" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ site_content.products_title or "Featured Products" }}</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ site_content.products_subtitle or "Our most popular handcrafted wooden items, each made with care and attention to detail." }}</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for product in products %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                {% if product.image_url %}
+                <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-64 object-cover">
+                {% else %}
+                <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
+                    <i class="fas fa-image text-4xl text-gray-400"></i>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ product.name }}</h3>
+                    <p class="text-gray-600 mb-4">{{ product.description[:100] }}{% if product.description|length > 100 %}...{% endif %}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-brown-600">${{ "%.2f"|format(product.price) }}</span>
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="bg-brown-600 text-white px-4 py-2 rounded hover:bg-brown-700 transition-colors">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if products|length == 0 %}
+        <div class="text-center py-12">
+            <i class="fas fa-box-open text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-2xl font-semibold text-gray-600 mb-2">No Products Available</h3>
+            <p class="text-gray-500">{{ site_content.no_products_message or "Check back soon for our latest handcrafted wooden products!" }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-gray-800 mb-6">{{ site_content.about_title or "About Artisan Woodworks" }}</h2>
+                <div class="prose prose-lg text-gray-600">
+                    {{ site_content.about_content or "
+                    <p>For over 20 years, we've been crafting beautiful wooden products that bring warmth and character to your home. Our passion for woodworking drives us to create pieces that are not just functional, but works of art.</p>
+                    <p>Every piece in our collection is handcrafted using traditional techniques and the finest materials. We believe in the beauty of natural wood and the stories it tells.</p>
+                    "|safe }}
+                </div>
+            </div>
+            <div class="bg-brown-600 rounded-lg p-8 text-white">
+                <h3 class="text-2xl font-bold mb-6">{{ site_content.process_title or "Our Process" }}</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <div class="bg-yellow-500 text-brown-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                        <div>
+                            <h4 class="font-semibold">{{ site_content.process_step1_title or "Design & Planning" }}</h4>
+                            <p class="text-gray-200">{{ site_content.process_step1_desc or "We carefully plan each piece, considering both form and function." }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-yellow-500 text-brown-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                        <div>
+                            <h4 class="font-semibold">{{ site_content.process_step2_title or "Crafting" }}</h4>
+                            <p class="text-gray-200">{{ site_content.process_step2_desc or "Using traditional techniques, we bring each design to life." }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="bg-yellow-500 text-brown-800 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                        <div>
+                            <h4 class="font-semibold">{{ site_content.process_step3_title or "Finishing" }}</h4>
+                            <p class="text-gray-200">{{ site_content.process_step3_desc or "Each piece is carefully finished to highlight the natural beauty of the wood." }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What Happens Next Section -->
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ site_content.next_steps_title or "What Happens Next?" }}</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ site_content.next_steps_subtitle or "Here's what you can expect when you place an order with us." }}</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="bg-brown-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check-circle text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ site_content.step1_title or "Order Confirmation" }}</h3>
+                <p class="text-gray-600">{{ site_content.step1_desc or "We'll confirm your order within 24 hours" }}</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-brown-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-tools text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ site_content.step2_title or "Production" }}</h3>
+                <p class="text-gray-600">{{ site_content.step2_desc or "Production typically takes 2-3 weeks" }}</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-brown-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-phone text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ site_content.step3_title or "Updates" }}</h3>
+                <p class="text-gray-600">{{ site_content.step3_desc or "We'll provide regular updates on progress" }}</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-brown-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-shipping-fast text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ site_content.step4_title or "Free Shipping" }}</h3>
+                <p class="text-gray-600">{{ site_content.step4_desc or "Free shipping on all orders" }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">{{ site_content.contact_title or "Get in Touch" }}</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ site_content.contact_subtitle or "Have questions about our products or want to discuss a custom piece? We'd love to hear from you." }}</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6">{{ site_content.contact_info_title or "Contact Information" }}</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-phone text-brown-600 text-xl mr-4"></i>
+                        <div>
+                            <p class="font-semibold">{{ site_content.contact_phone_label or "Phone" }}</p>
+                            <p class="text-gray-600">{{ site_content.contact_phone or "+1 (555) 123-4567" }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope text-brown-600 text-xl mr-4"></i>
+                        <div>
+                            <p class="font-semibold">{{ site_content.contact_email_label or "Email" }}</p>
+                            <p class="text-gray-600">{{ site_content.contact_email or "info@artisanwoodworks.com" }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-brown-600 text-xl mr-4"></i>
+                        <div>
+                            <p class="font-semibold">{{ site_content.contact_address_label or "Address" }}</p>
+                            <p class="text-gray-600">{{ site_content.contact_address or "123 Woodcraft Lane, Artisan City, AC 12345" }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-clock text-brown-600 text-xl mr-4"></i>
+                        <div>
+                            <p class="font-semibold">{{ site_content.contact_hours_label or "Business Hours" }}</p>
+                            <p class="text-gray-600">{{ site_content.contact_hours or "Monday - Friday: 9:00 AM - 6:00 PM" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg p-8 shadow-lg">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6">{{ site_content.contact_form_title or "Send us a Message" }}</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">{{ site_content.contact_form_name or "Name" }}</label>
+                        <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">{{ site_content.contact_form_email or "Email" }}</label>
+                        <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">{{ site_content.contact_form_message or "Message" }}</label>
+                        <textarea rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brown-500 focus:border-transparent"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brown-600 text-white py-3 rounded-lg font-semibold hover:bg-brown-700 transition-colors">
+                        {{ site_content.contact_form_submit or "Send Message" }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 
