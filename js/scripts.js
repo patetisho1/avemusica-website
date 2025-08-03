@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     initPerformanceCards();
     initBiographyAnimations();
-    initGallery();
-    initLightbox();
 });
 
 // Navigation functionality
@@ -53,38 +51,10 @@ function initAudioPlayer() {
     const playBtn = document.getElementById('playBtn');
     const progressFill = document.querySelector('.progress-fill');
     const timeDisplay = document.querySelector('.time-display');
-    const progressBar = document.querySelector('.progress-bar');
     
     let isPlaying = false;
-    let audio = null;
-    
-    // Create audio element
-    function createAudio() {
-        if (!audio) {
-            // Try to load audio file, but fallback to placeholder if not available
-            try {
-                audio = new Audio('assets/audio/hero-audio.mp3');
-                audio.addEventListener('loadedmetadata', function() {
-                    updateTimeDisplay();
-                });
-                audio.addEventListener('timeupdate', function() {
-                    updateProgress();
-                    updateTimeDisplay();
-                });
-                audio.addEventListener('ended', function() {
-                    resetAudio();
-                });
-                audio.addEventListener('error', function() {
-                    console.log('Audio file not found, using placeholder');
-                    // Fallback to placeholder functionality
-                    initPlaceholderAudio();
-                });
-            } catch (error) {
-                console.log('Audio creation failed, using placeholder');
-                initPlaceholderAudio();
-            }
-        }
-    }
+    let currentTime = 0;
+    let duration = 180; // 3 minutes in seconds (placeholder)
     
     if (playBtn) {
         playBtn.addEventListener('click', function() {
@@ -95,165 +65,50 @@ function initAudioPlayer() {
             }
         });
     }
-    
-    // Progress bar click functionality
-    if (progressBar) {
-        progressBar.addEventListener('click', function(e) {
-            if (!audio) return;
-            
-            const rect = this.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const width = rect.width;
-            const clickPercent = clickX / width;
-            
-            audio.currentTime = clickPercent * audio.duration;
-        });
-    }
 
     function playAudio() {
-        createAudio();
+        isPlaying = true;
+        playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        playBtn.style.background = 'var(--accent-purple)';
         
-        if (audio && audio.src) {
-            audio.play().then(() => {
-                isPlaying = true;
-                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                playBtn.style.background = 'var(--accent-purple)';
-            }).catch(error => {
-                console.log('Audio play failed:', error);
-                initPlaceholderAudio();
-            });
-        } else {
-            // Use placeholder audio if no real audio is available
-            initPlaceholderAudio();
-        }
+        // Simulate audio progress (replace with actual audio implementation)
+        const progressInterval = setInterval(() => {
+            if (isPlaying && currentTime < duration) {
+                currentTime++;
+                updateProgress();
+            } else {
+                clearInterval(progressInterval);
+                if (currentTime >= duration) {
+                    resetAudio();
+                }
+            }
+        }, 1000);
     }
 
     function pauseAudio() {
-        if (audio) {
-            audio.pause();
-        }
         isPlaying = false;
         playBtn.innerHTML = '<i class="fas fa-play"></i>';
         playBtn.style.background = 'var(--accent-gold)';
     }
 
     function resetAudio() {
-        if (audio) {
-            audio.currentTime = 0;
-        }
         isPlaying = false;
+        currentTime = 0;
         playBtn.innerHTML = '<i class="fas fa-play"></i>';
         playBtn.style.background = 'var(--accent-gold)';
         updateProgress();
     }
 
     function updateProgress() {
-        if (!audio || !audio.duration) return;
-        
-        const progress = (audio.currentTime / audio.duration) * 100;
+        const progress = (currentTime / duration) * 100;
         progressFill.style.width = progress + '%';
-    }
-
-    function updateTimeDisplay() {
-        if (!audio || !audio.duration) {
-            timeDisplay.textContent = '0:00 / 0:00';
-            return;
-        }
         
-        const currentMinutes = Math.floor(audio.currentTime / 60);
-        const currentSeconds = Math.floor(audio.currentTime % 60);
-        const totalMinutes = Math.floor(audio.duration / 60);
-        const totalSeconds = Math.floor(audio.duration % 60);
+        const currentMinutes = Math.floor(currentTime / 60);
+        const currentSeconds = currentTime % 60;
+        const totalMinutes = Math.floor(duration / 60);
+        const totalSeconds = duration % 60;
         
         timeDisplay.textContent = `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
-    }
-    
-    // Placeholder functionality when audio file is not available
-    function initPlaceholderAudio() {
-        let currentTime = 0;
-        let duration = 180; // 3 minutes
-        let progressInterval = null;
-        
-        function playPlaceholder() {
-            isPlaying = true;
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            playBtn.style.background = 'var(--accent-purple)';
-            
-            progressInterval = setInterval(() => {
-                if (isPlaying && currentTime < duration) {
-                    currentTime++;
-                    updatePlaceholderProgress();
-                } else {
-                    clearInterval(progressInterval);
-                    if (currentTime >= duration) {
-                        resetPlaceholder();
-                    }
-                }
-            }, 1000);
-        }
-        
-        function pausePlaceholder() {
-            isPlaying = false;
-            if (progressInterval) {
-                clearInterval(progressInterval);
-            }
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            playBtn.style.background = 'var(--accent-gold)';
-        }
-        
-        function updatePlaceholderProgress() {
-            const progress = (currentTime / duration) * 100;
-            if (progressFill) {
-                progressFill.style.width = progress + '%';
-            }
-            
-            const currentMinutes = Math.floor(currentTime / 60);
-            const currentSeconds = currentTime % 60;
-            const totalMinutes = Math.floor(duration / 60);
-            const totalSeconds = duration % 60;
-            
-            if (timeDisplay) {
-                timeDisplay.textContent = `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')} / ${totalMinutes}:${totalSeconds.toString().padStart(2, '0')}`;
-            }
-        }
-        
-        function resetPlaceholder() {
-            isPlaying = false;
-            currentTime = 0;
-            if (progressInterval) {
-                clearInterval(progressInterval);
-            }
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-            playBtn.style.background = 'var(--accent-gold)';
-            updatePlaceholderProgress();
-        }
-        
-        // Override play/pause functions
-        const originalPlay = playAudio;
-        const originalPause = pauseAudio;
-        
-        playAudio = function() {
-            if (audio && audio.src) {
-                originalPlay();
-            } else {
-                if (isPlaying) {
-                    pausePlaceholder();
-                } else {
-                    playPlaceholder();
-                }
-            }
-        };
-        
-        pauseAudio = function() {
-            if (audio && audio.src) {
-                originalPause();
-            } else {
-                pausePlaceholder();
-            }
-        };
-        
-        // Initialize placeholder display
-        updatePlaceholderProgress();
     }
 }
 
@@ -602,187 +457,107 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Optimized image loading - skip lazy loading for faster initial load
-// All images are loaded immediately for better performance
-
-// Optimized loading - remove loading screen for faster loading
-// The page will load immediately without waiting for all resources
-
-// Gallery functionality
-function initGallery() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
+// Lazy loading for images
+function initLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
     
-    // Filter functionality
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filter = this.dataset.filter;
-            
-            // Update active button
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            
-            // Filter items
-            galleryItems.forEach(item => {
-                if (filter === 'all' || item.dataset.category === filter) {
-                    item.style.display = 'block';
-                    item.style.animation = 'fadeIn 0.5s ease-in-out';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-    
-    // Load more functionality
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', function() {
-            // Simulate loading more images
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Зареждане...';
-            
-            setTimeout(() => {
-                // Add more gallery items here
-                const galleryGrid = document.querySelector('.gallery-grid');
-                const newItems = [
-                    {
-                        category: 'concerts',
-                        image: 'https://via.placeholder.com/400x300/9b59b6/ffffff?text=Концерт+3',
-                        title: 'Зимен концерт',
-                        description: 'Празнични мелодии'
-                    },
-                    {
-                        category: 'rehearsals',
-                        image: 'https://via.placeholder.com/400x300/1abc9c/ffffff?text=Репетиция+3',
-                        title: 'Индивидуална репетиция',
-                        description: 'Работа върху техника'
-                    }
-                ];
-                
-                newItems.forEach(item => {
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-item';
-                    galleryItem.dataset.category = item.category;
-                    galleryItem.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}" loading="lazy">
-                        <div class="gallery-overlay">
-                            <div class="gallery-info">
-                                <h4>${item.title}</h4>
-                                <p>${item.description}</p>
-                            </div>
-                            <button class="gallery-zoom">
-                                <i class="fas fa-search-plus"></i>
-                            </button>
-                        </div>
-                    `;
-                    galleryGrid.appendChild(galleryItem);
-                });
-                
-                this.innerHTML = '<i class="fas fa-images"></i> Зареди още';
-                showNotification('Добавени са нови изображения!', 'success');
-            }, 1500);
-        });
-    }
-}
-
-// Lightbox functionality
-function initLightbox() {
-    const lightboxModal = document.getElementById('lightboxModal');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
-    
-    let currentImageIndex = 0;
-    let galleryImages = [];
-    
-    // Collect all gallery images
-    function collectGalleryImages() {
-        const items = document.querySelectorAll('.gallery-item');
-        galleryImages = Array.from(items).map(item => ({
-            src: item.querySelector('img').src,
-            title: item.querySelector('.gallery-info h4').textContent,
-            description: item.querySelector('.gallery-info p').textContent
-        }));
-    }
-    
-    // Open lightbox
-    function openLightbox(index) {
-        currentImageIndex = index;
-        const image = galleryImages[index];
-        
-        lightboxImage.src = image.src;
-        lightboxCaption.querySelector('h4').textContent = image.title;
-        lightboxCaption.querySelector('p').textContent = image.description;
-        
-        lightboxModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    // Close lightbox
-    function closeLightbox() {
-        lightboxModal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Navigate to previous image
-    function prevImage() {
-        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-        openLightbox(currentImageIndex);
-    }
-    
-    // Navigate to next image
-    function nextImage() {
-        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-        openLightbox(currentImageIndex);
-    }
-    
-    // Event listeners
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('gallery-zoom')) {
-            collectGalleryImages();
-            const galleryItem = e.target.closest('.gallery-item');
-            const index = Array.from(document.querySelectorAll('.gallery-item')).indexOf(galleryItem);
-            openLightbox(index);
-        }
-    });
-    
-    if (lightboxClose) {
-        lightboxClose.addEventListener('click', closeLightbox);
-    }
-    
-    if (lightboxPrev) {
-        lightboxPrev.addEventListener('click', prevImage);
-    }
-    
-    if (lightboxNext) {
-        lightboxNext.addEventListener('click', nextImage);
-    }
-    
-    // Close on background click
-    if (lightboxModal) {
-        lightboxModal.addEventListener('click', function(e) {
-            if (e.target === lightboxModal) {
-                closeLightbox();
+    const imageObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+                imageObserver.unobserve(img);
             }
         });
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+}
+
+// Initialize lazy loading
+initLazyLoading();
+
+// Add loading screen
+const loadingScreen = document.createElement('div');
+loadingScreen.id = 'loading-screen';
+loadingScreen.innerHTML = `
+    <div class="loading-content">
+        <div class="loading-logo">
+            <i class="fas fa-music"></i>
+            <span>Ave Musica</span>
+        </div>
+        <div class="loading-spinner"></div>
+    </div>
+`;
+
+// Add loading screen styles
+const loadingStyles = document.createElement('style');
+loadingStyles.textContent = `
+    #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-black);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
     }
     
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (!lightboxModal.classList.contains('active')) return;
-        
-        switch(e.key) {
-            case 'Escape':
-                closeLightbox();
-                break;
-            case 'ArrowLeft':
-                prevImage();
-                break;
-            case 'ArrowRight':
-                nextImage();
-                break;
-        }
-    });
-} 
+    .loading-content {
+        text-align: center;
+    }
+    
+    .loading-logo {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        font-family: var(--font-primary);
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent-gold);
+    }
+    
+    .loading-logo i {
+        font-size: 2.5rem;
+        animation: pulse 2s infinite;
+    }
+    
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 215, 0, 0.3);
+        border-top: 3px solid var(--accent-gold);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+    
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+
+document.head.appendChild(loadingStyles);
+document.body.appendChild(loadingScreen);
+
+// Remove loading screen after page loads
+window.addEventListener('load', function() {
+    setTimeout(() => {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 500);
+    }, 1000);
+}); 

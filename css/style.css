@@ -1345,19 +1345,6 @@ body {
     .voices-grid {
         grid-template-columns: 1fr;
     }
-    
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .gallery-filters {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .lightbox-nav {
-        display: none;
-    }
 }
 
 @media (prefers-reduced-motion: no-preference) {
