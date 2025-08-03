@@ -210,6 +210,187 @@
             background: #c0392b;
         }
 
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Performances Grid */
+        .performances-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .performance-card {
+            background: var(--secondary-black);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .performance-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .performance-card h3 {
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            font-family: var(--font-primary);
+        }
+
+        .performance-card p {
+            margin-bottom: 8px;
+            color: var(--text-gray);
+        }
+
+        .performance-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Voices Grid */
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .voice-section {
+            background: var(--secondary-black);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .voice-section h4 {
+            color: var(--accent-purple);
+            margin-bottom: 10px;
+            font-family: var(--font-primary);
+        }
+
+        .voice-count {
+            width: 60px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: var(--primary-black);
+            color: var(--text-white);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .voice-section p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Media Grid */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .media-item {
+            background: var(--secondary-black);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .media-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .audio-placeholder {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(45deg, var(--accent-purple), var(--accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-placeholder i {
+            font-size: 3rem;
+            color: var(--text-white);
+            opacity: 0.8;
+        }
+
+        .media-info {
+            padding: 15px;
+        }
+
+        .media-info h4 {
+            color: var(--accent-gold);
+            margin-bottom: 5px;
+            font-family: var(--font-primary);
+        }
+
+        .media-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .media-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px 15px;
+        }
+
+        /* Subscribers List */
+        .subscribers-list {
+            margin-top: 20px;
+        }
+
+        .subscriber-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--secondary-black);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .subscriber-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .subscriber-info strong {
+            color: var(--accent-gold);
+        }
+
+        .subscriber-info span {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .subscriber-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Events Grid */
         .events-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -277,6 +458,7 @@
             display: none;
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
             .admin-container {
                 flex-direction: column;
@@ -284,16 +466,25 @@
 
             .sidebar {
                 width: 100%;
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                height: auto;
+                position: relative;
             }
 
             .main-content {
+                margin-left: 0;
                 padding: 20px;
             }
 
-            .events-grid {
+            .performances-grid,
+            .voices-grid,
+            .media-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .subscriber-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
             }
         }
     </style>
@@ -514,54 +705,470 @@
                 </div>
             </div>
 
-            <!-- Other pages would be similar... -->
+            <!-- Performances Page -->
             <div id="performances" class="page-content hidden">
                 <div class="page-header">
                     <h1>Управление на изпълнения</h1>
                     <p>Добавете и редактирайте музикални произведения</p>
                 </div>
+
                 <div class="content-section">
-                    <p style="color: var(--text-gray);">Функционалността за управление на изпълнения ще бъде добавена скоро...</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-plus"></i>
+                        Добави ново изпълнение
+                    </h3>
+                    <form id="addPerformanceForm">
+                        <div class="form-group">
+                            <label for="performanceTitle">Заглавие на изпълнението</label>
+                            <input type="text" id="performanceTitle" name="title" placeholder="Напр. Класическа ария" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="performanceComposer">Композитор</label>
+                            <input type="text" id="performanceComposer" name="composer" placeholder="Напр. Бах, Моцарт">
+                        </div>
+                        <div class="form-group">
+                            <label for="performanceCategory">Категория</label>
+                            <select id="performanceCategory" name="category" required>
+                                <option value="">Изберете категория</option>
+                                <option value="classical">Класическа</option>
+                                <option value="modern">Модерна</option>
+                                <option value="a_cappella">Акапела</option>
+                                <option value="folk">Народна</option>
+                                <option value="sacred">Сакрална</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="performanceDescription">Описание</label>
+                            <textarea id="performanceDescription" name="description" rows="4" placeholder="Описание на изпълнението..."></textarea>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label for="performanceAudio">Аудио файл</label>
+                                <input type="file" id="performanceAudio" name="audio" accept="audio/*">
+                            </div>
+                            <div class="form-group">
+                                <label for="performanceImage">Снимка</label>
+                                <input type="file" id="performanceImage" name="image" accept="image/*">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Добави изпълнение
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-list"></i>
+                        Съществуващи изпълнения
+                    </h3>
+                    <div class="performances-grid">
+                        <div class="performance-card">
+                            <h3>Класическа ария</h3>
+                            <p><strong>Композитор:</strong> Бах</p>
+                            <p><strong>Категория:</strong> Класическа</p>
+                            <p><strong>Продължителност:</strong> 3:45</p>
+                            <div class="performance-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                    Редактирай
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                    Изтрий
+                                </button>
+                            </div>
+                        </div>
+                        <div class="performance-card">
+                            <h3>Модерна акапела</h3>
+                            <p><strong>Композитор:</strong> Съвременен</p>
+                            <p><strong>Категория:</strong> Акапела</p>
+                            <p><strong>Продължителност:</strong> 4:12</p>
+                            <div class="performance-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                    Редактирай
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                    Изтрий
+                                </button>
+                            </div>
+                        </div>
+                        <div class="performance-card">
+                            <h3>Българска народна</h3>
+                            <p><strong>Композитор:</strong> Традиционен</p>
+                            <p><strong>Категория:</strong> Народна</p>
+                            <p><strong>Продължителност:</strong> 2:58</p>
+                            <div class="performance-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                    Редактирай
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                    Изтрий
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Content Page -->
             <div id="content" class="page-content hidden">
                 <div class="page-header">
                     <h1>Управление на съдържание</h1>
                     <p>Редактирайте текстове и съдържание на сайта</p>
                 </div>
+
                 <div class="content-section">
-                    <p style="color: var(--text-gray);">Функционалността за управление на съдържание ще бъде добавена скоро...</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-edit"></i>
+                        За хора секция
+                    </h3>
+                    <form id="aboutContentForm">
+                        <div class="form-group">
+                            <label for="aboutTitle">Заглавие</label>
+                            <input type="text" id="aboutTitle" name="title" value="Нашата история" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aboutContent">Съдържание</label>
+                            <textarea id="aboutContent" name="content" rows="6" placeholder="Въведете съдържание за секцията 'За хора'...">Ave Musica е създаден през 2010 година с цел да популяризира класическата хорова музика и да създава висококачествени музикални преживявания. Хорът се състои от 25 певци с различни гласове и опит в музикалното изкуство.</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Запази промените
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-user"></i>
+                        Биография на диригента
+                    </h3>
+                    <form id="conductorBioForm">
+                        <div class="form-group">
+                            <label for="conductorName">Име на диригента</label>
+                            <input type="text" id="conductorName" name="name" value="Мария Петрова" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="conductorBio">Биография</label>
+                            <textarea id="conductorBio" name="bio" rows="6" placeholder="Въведете биография на диригента...">Мария Петрова е диригент на Ave Musica от 2015 година. Завършила е Националната музикална академия със специалност "Хорово дирижиране" и има над 20 години опит в музикалното образование.</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Запази промените
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Хорови гласове
+                    </h3>
+                    <div class="voices-grid">
+                        <div class="voice-section">
+                            <h4>Soprano</h4>
+                            <input type="number" value="8" min="0" max="20" class="voice-count">
+                            <p>певци - високи женски гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Alto</h4>
+                            <input type="number" value="6" min="0" max="20" class="voice-count">
+                            <p>певци - ниски женски гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Tenor</h4>
+                            <input type="number" value="6" min="0" max="20" class="voice-count">
+                            <p>певци - високи мъжки гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Bass</h4>
+                            <input type="number" value="5" min="0" max="20" class="voice-count">
+                            <p>певци - ниски мъжки гласове</p>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="saveVoiceCounts()">
+                        <i class="fas fa-save"></i>
+                        Запази промените
+                    </button>
                 </div>
             </div>
 
+            <!-- Media Page -->
             <div id="media" class="page-content hidden">
                 <div class="page-header">
                     <h1>Управление на медия</h1>
                     <p>Качете и управлявайте снимки и аудио файлове</p>
                 </div>
+
                 <div class="content-section">
-                    <p style="color: var(--text-gray);">Функционалността за управление на медия ще бъде добавена скоро...</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-upload"></i>
+                        Качи нови файлове
+                    </h3>
+                    <form id="uploadMediaForm">
+                        <div class="form-group">
+                            <label for="mediaType">Тип на файла</label>
+                            <select id="mediaType" name="type" required>
+                                <option value="">Изберете тип</option>
+                                <option value="image">Снимка</option>
+                                <option value="audio">Аудио</option>
+                                <option value="video">Видео</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediaFile">Файл</label>
+                            <input type="file" id="mediaFile" name="file" accept="image/*,audio/*,video/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mediaTitle">Заглавие</label>
+                            <input type="text" id="mediaTitle" name="title" placeholder="Описателно заглавие">
+                        </div>
+                        <div class="form-group">
+                            <label for="mediaDescription">Описание</label>
+                            <textarea id="mediaDescription" name="description" rows="3" placeholder="Кратко описание на файла..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i>
+                            Качи файл
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-images"></i>
+                        Снимки
+                    </h3>
+                    <div class="media-grid">
+                        <div class="media-item">
+                            <img src="https://via.placeholder.com/200x150/2c3e50/ffffff?text=Хор+Снимка" alt="Хор снимка">
+                            <div class="media-info">
+                                <h4>Хор снимка</h4>
+                                <p>Снимка от концерт</p>
+                            </div>
+                            <div class="media-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="https://via.placeholder.com/200x150/8e44ad/ffffff?text=Диригент" alt="Диригент">
+                            <div class="media-info">
+                                <h4>Диригент</h4>
+                                <p>Снимка на диригента</p>
+                            </div>
+                            <div class="media-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-music"></i>
+                        Аудио файлове
+                    </h3>
+                    <div class="media-grid">
+                        <div class="media-item">
+                            <div class="audio-placeholder">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="media-info">
+                                <h4>Класическа ария</h4>
+                                <p>3:45 - Бах</p>
+                            </div>
+                            <div class="media-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="audio-placeholder">
+                                <i class="fas fa-music"></i>
+                            </div>
+                            <div class="media-info">
+                                <h4>Модерна акапела</h4>
+                                <p>4:12 - Съвременен</p>
+                            </div>
+                            <div class="media-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Newsletter Page -->
             <div id="newsletter" class="page-content hidden">
                 <div class="page-header">
                     <h1>Newsletter управление</h1>
                     <p>Управлявайте абонатите и изпращайте бюлетини</p>
                 </div>
+
                 <div class="content-section">
-                    <p style="color: var(--text-gray);">Функционалността за newsletter управление ще бъде добавена скоро...</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-envelope"></i>
+                        Изпрати бюлетин
+                    </h3>
+                    <form id="sendNewsletterForm">
+                        <div class="form-group">
+                            <label for="newsletterSubject">Тема</label>
+                            <input type="text" id="newsletterSubject" name="subject" placeholder="Тема на бюлетина" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsletterContent">Съдържание</label>
+                            <textarea id="newsletterContent" name="content" rows="8" placeholder="Съдържание на бюлетина..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsletterRecipients">Получатели</label>
+                            <select id="newsletterRecipients" name="recipients">
+                                <option value="all">Всички абонати (127)</option>
+                                <option value="new">Нови абонати (15)</option>
+                                <option value="active">Активни абонати (89)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Изпрати бюлетин
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Абонати (127)
+                    </h3>
+                    <div class="subscribers-list">
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>john@example.com</strong>
+                                <span>Абониран на: 15.01.2025</span>
+                            </div>
+                            <div class="subscriber-actions">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>maria@example.com</strong>
+                                <span>Абониран на: 12.01.2025</span>
+                            </div>
+                            <div class="subscriber-actions">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>peter@example.com</strong>
+                                <span>Абониран на: 10.01.2025</span>
+                            </div>
+                            <div class="subscriber-actions">
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Експортирай списъка
+                    </button>
                 </div>
             </div>
 
+            <!-- Settings Page -->
             <div id="settings" class="page-content hidden">
                 <div class="page-header">
                     <h1>Настройки</h1>
                     <p>Конфигурирайте настройките на сайта</p>
                 </div>
+
                 <div class="content-section">
-                    <p style="color: var(--text-gray);">Функционалността за настройки ще бъде добавена скоро...</p>
+                    <h3 class="section-title">
+                        <i class="fas fa-cog"></i>
+                        Основни настройки
+                    </h3>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="siteTitle">Заглавие на сайта</label>
+                            <input type="text" id="siteTitle" name="title" value="Ave Musica - Хорът на музикалното изкуство" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="siteDescription">Описание на сайта</label>
+                            <textarea id="siteDescription" name="description" rows="3">Открийте магията на многогласието и красотата на класическата музика с Ave Musica</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Контакт имейл</label>
+                            <input type="email" id="contactEmail" name="email" value="info@avemusica.bg" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Контакт телефон</label>
+                            <input type="tel" id="contactPhone" name="phone" value="+359 2 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactAddress">Адрес</label>
+                            <textarea id="contactAddress" name="address" rows="2">ул. "Граф Игнатиев" 15, София</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Запази настройките
+                        </button>
+                    </form>
+                </div>
+
+                <div class="content-section">
+                    <h3 class="section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Сигурност
+                    </h3>
+                    <form id="securityForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Текуща парола</label>
+                            <input type="password" id="currentPassword" name="current" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Нова парола</label>
+                            <input type="password" id="newPassword" name="new" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Потвърди нова парола</label>
+                            <input type="password" id="confirmPassword" name="confirm" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-key"></i>
+                            Промени парола
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -596,13 +1203,68 @@
         // Add Event Form
         document.getElementById('addEventForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Simulate form submission
             showNotification('Събитието е добавено успешно!', 'success');
-            
-            // Reset form
             this.reset();
         });
+
+        // Add Performance Form
+        document.getElementById('addPerformanceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Изпълнението е добавено успешно!', 'success');
+            this.reset();
+        });
+
+        // About Content Form
+        document.getElementById('aboutContentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Съдържанието е запазено успешно!', 'success');
+        });
+
+        // Conductor Bio Form
+        document.getElementById('conductorBioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Биографията е запазена успешно!', 'success');
+        });
+
+        // Upload Media Form
+        document.getElementById('uploadMediaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Файлът е качен успешно!', 'success');
+            this.reset();
+        });
+
+        // Send Newsletter Form
+        document.getElementById('sendNewsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Бюлетинът е изпратен успешно!', 'success');
+            this.reset();
+        });
+
+        // Settings Form
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('Настройките са запазени успешно!', 'success');
+        });
+
+        // Security Form
+        document.getElementById('securityForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPass = document.getElementById('newPassword').value;
+            const confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (newPass !== confirmPass) {
+                showNotification('Паролите не съвпадат!', 'error');
+                return;
+            }
+            
+            showNotification('Паролата е променена успешно!', 'success');
+            this.reset();
+        });
+
+        // Save Voice Counts
+        function saveVoiceCounts() {
+            showNotification('Броят на гласовете е запазен успешно!', 'success');
+        }
 
         // Notification function
         function showNotification(message, type = 'info') {
@@ -619,9 +1281,9 @@
         // Delete buttons
         document.querySelectorAll('.btn-danger').forEach(btn => {
             btn.addEventListener('click', function() {
-                if (confirm('Сигурни ли сте, че искате да изтриете това събитие?')) {
-                    showNotification('Събитието е изтрито успешно!', 'success');
-                    this.closest('.event-card').remove();
+                if (confirm('Сигурни ли сте, че искате да изтриете този елемент?')) {
+                    showNotification('Елементът е изтрит успешно!', 'success');
+                    this.closest('.event-card, .performance-card, .media-item, .subscriber-item').remove();
                 }
             });
         });
