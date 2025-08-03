@@ -1,110 +1,152 @@
-# 🚀 Free Deployment Guide for Your Flask App
+# 🚀 Ръководство за деплойване на Ave Musica сайта
 
-## Quick Start Options
+## 🌐 GitHub Pages (Препоръчва се)
 
-### 1. **Render** (Easiest & Recommended)
-**Steps:**
-1. Go to [render.com](https://render.com) and sign up
-2. Click "New +" → "Web Service"
-3. Connect your GitHub repository
-4. Configure:
-   - **Name**: `your-app-name`
-   - **Environment**: `Python 3`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `gunicorn app:app`
-5. Click "Create Web Service"
+### Стъпка 1: Създаване на GitHub акаунт
+1. Отидете на [github.com](https://github.com)
+2. Създайте безплатен акаунт
+3. Потвърдете имейла
 
-**Your site will be live at:** `https://your-app-name.onrender.com`
+### Стъпка 2: Създаване на нов repository
+1. Кликнете **"New repository"**
+2. Име: `avemusica-website` (или каквото предпочитате)
+3. Описание: `Ave Musica - Хорът на музикалното изкуство`
+4. Изберете **"Public"**
+5. **НЕ** маркирайте "Add a README file"
+6. Кликнете **"Create repository"**
 
-### 2. **Railway** (Very Easy)
-**Steps:**
-1. Go to [railway.app](https://railway.app) and sign up
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Select your repository
-4. Railway will auto-detect it's a Python app
-5. Deploy!
+### Стъпка 3: Качване на файловете
+```bash
+# В папката с вашия сайт
+git init
+git add .
+git commit -m "Initial commit - Ave Musica website"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/avemusica-website.git
+git push -u origin main
+```
 
-**Your site will be live at:** `https://your-app-name.railway.app`
+### Стъпка 4: Активиране на GitHub Pages
+1. Отидете в repository настройките
+2. Скролирайте до **"Pages"** секцията
+3. Под **"Source"** изберете **"Deploy from a branch"**
+4. Изберете **"main"** branch
+5. Изберете **"/ (root)"** папка
+6. Кликнете **"Save"**
 
-### 3. **Heroku** (Classic Choice)
-**Steps:**
-1. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-2. Open terminal in your project folder
-3. Run these commands:
-   ```bash
-   heroku login
-   heroku create your-app-name
-   git add .
-   git commit -m "Deploy to Heroku"
-   git push heroku main
-   ```
+### Стъпка 5: Достъп до сайта
+Сайтът ще бъде достъпен на:
+```
+https://YOUR_USERNAME.github.io/avemusica-website
+```
 
-**Your site will be live at:** `https://your-app-name.herokuapp.com`
+## 🌐 Netlify (Алтернатива)
 
-### 4. **PythonAnywhere** (Python-Focused)
-**Steps:**
-1. Go to [pythonanywhere.com](https://pythonanywhere.com) and sign up
-2. Go to "Web" tab → "Add a new web app"
-3. Choose "Flask" and Python 3.9
-4. Upload your files or clone from GitHub
-5. Install requirements: `pip install -r requirements.txt`
-6. Configure WSGI file to point to your app
+### Стъпка 1: Регистрация
+1. Отидете на [netlify.com](https://netlify.com)
+2. Регистрирайте се с GitHub акаунта
 
-**Your site will be live at:** `https://yourusername.pythonanywhere.com`
+### Стъпка 2: Деплойване
+1. Кликнете **"New site from Git"**
+2. Изберете **GitHub**
+3. Изберете вашия repository
+4. Настройки:
+   - **Build command:** (празно)
+   - **Publish directory:** `.` (root)
+5. Кликнете **"Deploy site"**
 
-## 📁 Required Files (Already Created)
+### Стъпка 3: Персонализиран домейн
+1. В настройките на сайта
+2. Отидете в **"Domain settings"**
+3. Кликнете **"Add custom domain"**
+4. Въведете желания домейн
 
-Your project now includes:
-- ✅ `requirements.txt` - Python dependencies
-- ✅ `Procfile` - Tells Heroku how to run your app
-- ✅ `runtime.txt` - Python version specification
-- ✅ `app.py` - Updated for production
+## 🔧 Подготовка на файловете
 
-## 🔧 Important Notes
+### Премахване на ненужни файлове
+Преди деплойване, премахнете:
+- `start_server.bat`
+- `debug.html`
+- `test.html`
+- `simple_test.html`
+- `*.bat` файлове
 
-### Database Considerations
-- **Local SQLite**: Your current `woodworking.db` won't work in production
-- **Solutions**:
-  - Use PostgreSQL (free on Render/Railway/Heroku)
-  - Use SQLite with persistent storage (PythonAnywhere)
+### Оптимизация за продукция
+1. Използвайте `index_ultra_fast.html` като `index.html`
+2. Добавете реални изображения
+3. Добавете реални аудио файлове
 
-### Environment Variables
-For production, you should set:
-- `SECRET_KEY` - A strong secret key
-- `DATABASE_URL` - Database connection string
+## 📁 Структура за деплойване
 
-### File Uploads
-- Local file uploads won't work in production
-- Use cloud storage (AWS S3, Cloudinary) for images
+```
+avemusica-website/
+├── index.html (преименуван от index_ultra_fast.html)
+├── css/
+│   └── style.css
+├── js/
+│   └── scripts.js
+├── assets/
+│   ├── images/
+│   │   ├── hero-bg.jpg
+│   │   ├── choir-photo.jpg
+│   │   └── ...
+│   └── audio/
+│       └── hero-audio.mp3
+└── README.md
+```
 
-## 🎯 Recommended for Beginners
+## 🎯 Следващи стъпки след деплойване
 
-**Start with Render** - it's the easiest and most reliable free option for Flask apps.
+### 1. Добавяне на реално съдържание
+- [ ] Реални изображения на хора
+- [ ] Аудио файлове от концерти
+- [ ] Актуална контактна информация
+- [ ] Реални събития и дати
 
-## 🔗 Next Steps After Deployment
+### 2. SEO оптимизация
+- [ ] Google Analytics
+- [ ] Google Search Console
+- [ ] Meta описания за всяка страница
+- [ ] Sitemap.xml
 
-1. **Set up a custom domain** (optional)
-2. **Configure environment variables**
-3. **Set up a production database**
-4. **Add SSL certificate** (usually automatic)
-5. **Set up monitoring**
+### 3. Функционалност
+- [ ] Работна контактна форма
+- [ ] Newsletter абонамент
+- [ ] Галерия с реални снимки
+- [ ] Аудио плейър с реални записи
 
-## 💡 Tips
+### 4. Персонализиране
+- [ ] Персонализиран домейн
+- [ ] Лого и брандинг
+- [ ] Цветова схема
+- [ ] Текстове и съдържание
 
-- **Free tiers have limits**: Be aware of usage restrictions
-- **Sleep mode**: Some free tiers put your app to sleep after inactivity
-- **Cold starts**: First request after sleep might be slow
-- **Database**: Consider using a managed database service
+## 🔍 Тестване
 
-## 🆘 Troubleshooting
+### Преди деплойване:
+- [ ] Тествайте всички линкове
+- [ ] Проверете responsive дизайна
+- [ ] Тествайте контактната форма
+- [ ] Проверете за грешки в конзолата
 
-### Common Issues:
-1. **Build fails**: Check `requirements.txt` has all dependencies
-2. **App crashes**: Check logs in your hosting platform
-3. **Database errors**: Ensure database is properly configured
-4. **Static files**: Make sure they're in the right folders
+### След деплойване:
+- [ ] Отворете сайта в различни браузъри
+- [ ] Тествайте на мобилни устройства
+- [ ] Проверете скоростта на зареждане
+- [ ] Тествайте всички функционалности
 
-### Getting Help:
-- Check your hosting platform's documentation
-- Look at the deployment logs
-- Test locally first with `gunicorn app:app` 
+## 🆘 Решение на проблеми
+
+### Ако сайтът не се зарежда:
+1. Проверете дали всички файлове са качени
+2. Проверете дали `index.html` е в root папката
+3. Изчакайте 5-10 минути за първоначално деплойване
+
+### Ако някои елементи не работят:
+1. Проверете конзолата за грешки (F12)
+2. Уверете се, че всички пътища са правилни
+3. Проверете дали всички файлове са достъпни
+
+---
+
+**💡 Съвет:** Започнете с GitHub Pages - най-лесният и надежден вариант! 

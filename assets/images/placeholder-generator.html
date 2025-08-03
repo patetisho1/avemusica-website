@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Images Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .image-item {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .image-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .image-item h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .image-item p {
+            color: #666;
+            font-size: 14px;
+        }
+        .download-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .download-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Placeholder Images for Ave Musica Website</h1>
+        <p>Този файл генерира placeholder изображения за различните секции на сайта.</p>
+        
+        <div class="image-grid">
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x250/2c3e50/ffffff?text=Весенен+концерт" alt="Весенен концерт">
+                <h3>concert-1.jpg</h3>
+                <p>Весенен концерт - 400x250px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x250/2c3e50/ffffff?text=Весенен+концерт', 'concert-1.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x250/8e44ad/ffffff?text=Пасхална+литургия" alt="Пасхална литургия">
+                <h3>concert-2.jpg</h3>
+                <p>Пасхална литургия - 400x250px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x250/8e44ad/ffffff?text=Пасхална+литургия', 'concert-2.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x250/3498db/ffffff?text=Летен+фестивал" alt="Летен фестивал">
+                <h3>concert-3.jpg</h3>
+                <p>Летен фестивал - 400x250px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x250/3498db/ffffff?text=Летен+фестивал', 'concert-3.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/500x400/2c3e50/ffffff?text=Ave+Musica+Хор" alt="Ave Musica хор">
+                <h3>choir-photo.jpg</h3>
+                <p>Хорова фотография - 500x400px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/500x400/2c3e50/ffffff?text=Ave+Musica+Хор', 'choir-photo.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/300x400/8e44ad/ffffff?text=Диригент" alt="Диригент">
+                <h3>conductor.jpg</h3>
+                <p>Диригент - 300x400px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/300x400/8e44ad/ffffff?text=Диригент', 'conductor.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x300/27ae60/ffffff?text=Класическа+ария" alt="Класическа ария">
+                <h3>performance-1.jpg</h3>
+                <p>Класическа ария - 400x300px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x300/27ae60/ffffff?text=Класическа+ария', 'performance-1.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x300/e74c3c/ffffff?text=Модерна+акапела" alt="Модерна акапела">
+                <h3>performance-2.jpg</h3>
+                <p>Модерна акапела - 400x300px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x300/e74c3c/ffffff?text=Модерна+акапела', 'performance-2.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/400x300/f39c12/ffffff?text=Българска+народна" alt="Българска народна">
+                <h3>performance-3.jpg</h3>
+                <p>Българска народна - 400x300px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/400x300/f39c12/ffffff?text=Българска+народна', 'performance-3.jpg')">Изтегли</button>
+            </div>
+            
+            <div class="image-item">
+                <img src="https://via.placeholder.com/1200x630/2c3e50/ffffff?text=Ave+Musica+OG+Image" alt="OG Image">
+                <h3>og-image.jpg</h3>
+                <p>Open Graph изображение - 1200x630px</p>
+                <button class="download-btn" onclick="downloadImage('https://via.placeholder.com/1200x630/2c3e50/ffffff?text=Ave+Musica+OG+Image', 'og-image.jpg')">Изтегли</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadImage(url, filename) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave Musica - Хорът на музикалното изкуство</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-music"></i>
+                <span>Ave Musica</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Начало</a></li>
+                <li><a href="#about" class="nav-link">За хора</a></li>
+                <li><a href="#events" class="nav-link">Събития</a></li>
+                <li><a href="#performances" class="nav-link">Изпълнения</a></li>
+                <li><a href="#biography" class="nav-link">Биографии</a></li>
+                <li><a href="#contact" class="nav-link">Контакт</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="hero-particles"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">Добре дошли в</span>
+                <span class="title-highlight">Ave Musica</span>
+                <span class="title-line">хорът на музикалното изкуство</span>
+            </h1>
+            <p class="hero-description">
+                Открийте магията на многогласието и красотата на класическата музика. 
+                Ave Musica е хор, който съчетава традицията с модерността, 
+                създавайки незабравими музикални преживявания.
+            </p>
+            <div class="hero-audio">
+                <div class="audio-player">
+                    <div class="audio-info">
+                        <h3>Най-добро изпълнение</h3>
+                        <p>Слушайте магията на Ave Musica</p>
+                    </div>
+                    <div class="audio-controls">
+                        <button class="play-btn" id="playBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="time-display">0:00 / 0:00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-buttons">
+                <a href="#performances" class="btn btn-primary">
+                    <i class="fas fa-music"></i>
+                    Чуй още
+                </a>
+                <a href="#about" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i>
+                    Научи повече
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="events">
+        <div class="container">
+            <div class="section-header">
+                <h2>Предстоящи събития</h2>
+                <p>Не пропускайте нашите концерти и изпълнения</p>
+            </div>
+            <div class="events-carousel">
+                <div class="carousel-container">
+                    {% if events %}
+                        {% for event in events %}
+                        <div class="event-card {% if loop.first %}active{% endif %}">
+                            <div class="event-image">
+                                {% if event.image_url %}
+                                    <img src="{{ event.image_url }}" alt="{{ event.title }}" onerror="this.src='https://via.placeholder.com/400x250/2c3e50/ffffff?text={{ event.title|replace(' ', '+') }}'">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/400x250/2c3e50/ffffff?text={{ event.title|replace(' ', '+') }}" alt="{{ event.title }}">
+                                {% endif %}
+                                <div class="event-date">
+                                    <span class="day">{{ event.date.day }}</span>
+                                    <span class="month">{{ event.date.strftime('%b') }}</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3>{{ event.title }}</h3>
+                                {% if event.location %}
+                                <p class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ event.location }}
+                                </p>
+                                {% endif %}
+                                <p class="event-time">
+                                    <i class="fas fa-clock"></i>
+                                    {{ event.date.strftime('%H:%M') }} ч.
+                                </p>
+                                {% if event.description %}
+                                <p class="event-description">
+                                    {{ event.description }}
+                                </p>
+                                {% endif %}
+                                <button class="btn btn-primary">Резервирай билет</button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <!-- Default events if none in database -->
+                        <div class="event-card active">
+                            <div class="event-image">
+                                <img src="https://via.placeholder.com/400x250/2c3e50/ffffff?text=Весенен+концерт" alt="Весенен концерт">
+                                <div class="event-date">
+                                    <span class="day">15</span>
+                                    <span class="month">Мар</span>
+                                </div>
+                            </div>
+                            <div class="event-content">
+                                <h3>Весенен концерт</h3>
+                                <p class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Национална музикална академия
+                                </p>
+                                <p class="event-time">
+                                    <i class="fas fa-clock"></i>
+                                    19:00 ч.
+                                </p>
+                                <p class="event-description">
+                                    Специална програма с класически произведения и модерни аранжименти
+                                </p>
+                                <button class="btn btn-primary">Резервирай билет</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="carousel-dots">
+                        {% if events %}
+                            {% for event in events %}
+                            <span class="dot {% if loop.first %}active{% endif %}" data-slide="{{ loop.index0 }}"></span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="dot active" data-slide="0"></span>
+                        {% endif %}
+                    </div>
+                    <button class="carousel-btn next" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h3>Абонирайте се за новини</h3>
+                    <p>Получете информация за предстоящи концерти, нови записи и специални събития</p>
+                </div>
+                <div class="newsletter-form">
+                    <form id="newsletterForm">
+                        <div class="form-group">
+                            <input type="email" id="newsletterEmail" name="email" placeholder="Вашият имейл адрес" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i>
+                            Абонирай се
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>За хора</h2>
+                <p>Открийте историята зад Ave Musica</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    {% if about_content %}
+                        <h3>{{ about_content.title }}</h3>
+                        <p>{{ about_content.content }}</p>
+                    {% else %}
+                        <h3>Нашата история</h3>
+                        <p>
+                            Ave Musica е създаден през 2010 година с цел да популяризира 
+                            класическата хорова музика и да създава висококачествени музикални 
+                            преживявания. Хорът се състои от 25 певци с различни гласове и 
+                            опит в музикалното изкуство.
+                        </p>
+                    {% endif %}
+                    <div class="choir-stats">
+                        <div class="stat">
+                            <span class="stat-number">25</span>
+                            <span class="stat-label">певци</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">15</span>
+                            <span class="stat-label">години опит</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">концерта</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="choir-photo">
+                        <img src="{{ url_for('static', filename='images/choir-photo.jpg') }}" alt="Ave Musica хор" onerror="this.src='https://via.placeholder.com/500x400/2c3e50/ffffff?text=Ave+Musica+Хор'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performances Section -->
+    <section id="performances" class="performances">
+        <div class="container">
+            <div class="section-header">
+                <h2>Изпълнения</h2>
+                <p>Галерия от най-добрите произведения</p>
+            </div>
+            <div class="performances-grid">
+                {% if performances %}
+                    {% for performance in performances %}
+                    <div class="performance-card">
+                        <div class="card-image">
+                            {% if performance.image_url %}
+                                <img src="{{ performance.image_url }}" alt="{{ performance.title }}" onerror="this.innerHTML='<i class=\'fas fa-music\'></i>'">
+                            {% else %}
+                                <div class="placeholder-image">
+                                    <i class="fas fa-music"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ performance.title }}</h3>
+                            {% if performance.composer %}
+                                <p class="composer">Композитор: {{ performance.composer }}</p>
+                            {% endif %}
+                            {% if performance.description %}
+                                <p>{{ performance.description }}</p>
+                            {% endif %}
+                            <div class="card-controls">
+                                {% if performance.audio_url %}
+                                    <button class="play-card-btn" data-audio="{{ performance.audio_url }}">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                {% else %}
+                                    <button class="play-card-btn disabled">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                {% endif %}
+                                <span class="duration">3:45</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Default performances if none in database -->
+                    <div class="performance-card">
+                        <div class="card-image">
+                            <div class="placeholder-image">
+                                <i class="fas fa-music"></i>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Класическа ария</h3>
+                            <p>Традиционно многогласие с модерна обработка</p>
+                            <div class="card-controls">
+                                <button class="play-card-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <span class="duration">3:45</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Biography Section -->
+    <section id="biography" class="biography">
+        <div class="container">
+            <div class="section-header">
+                <h2>Биографии</h2>
+                <p>Познайте хора и диригента</p>
+            </div>
+            <div class="biography-content">
+                <div class="conductor-bio">
+                    <div class="bio-image">
+                        <img src="{{ url_for('static', filename='images/conductor.jpg') }}" alt="Диригент" onerror="this.src='https://via.placeholder.com/300x400/8e44ad/ffffff?text=Диригент'">
+                    </div>
+                    <div class="bio-text">
+                        {% if conductor_bio %}
+                            <h3>{{ conductor_bio.title }}</h3>
+                            <p>{{ conductor_bio.content }}</p>
+                        {% else %}
+                            <h3>Диригент: Мария Петрова</h3>
+                            <p>
+                                Мария Петрова е диригент на Ave Musica от 2015 година. 
+                                Завършила е Националната музикална академия със специалност 
+                                "Хорово дирижиране" и има над 20 години опит в музикалното образование.
+                            </p>
+                            <p>
+                                Под нейното ръководство хорът е постигнал значителни успехи 
+                                на национални и международни конкурси, включително първо място 
+                                на Международния фестивал за хорова музика в Италия през 2023.
+                            </p>
+                        {% endif %}
+                        <div class="bio-achievements">
+                            <h4>Постижения:</h4>
+                            <ul>
+                                <li>Първо място - Международен фестивал Италия 2023</li>
+                                <li>Специална награда за интерпретация - София 2022</li>
+                                <li>Почетен диплом - Европейски хоров конкурс 2021</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="choir-members">
+                    {% if choir_bio %}
+                        <h3>{{ choir_bio.title }}</h3>
+                        <p>{{ choir_bio.content }}</p>
+                    {% else %}
+                        <h3>Хорови гласове</h3>
+                    {% endif %}
+                    <div class="voices-grid">
+                        <div class="voice-section">
+                            <h4>Soprano</h4>
+                            <p>8 певци - високи женски гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Alto</h4>
+                            <p>6 певци - ниски женски гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Tenor</h4>
+                            <p>6 певци - високи мъжки гласове</p>
+                        </div>
+                        <div class="voice-section">
+                            <h4>Bass</h4>
+                            <p>5 певци - ниски мъжки гласове</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Контакт</h2>
+                <p>Свържете се с нас за сътрудничество</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Вашето име" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Вашият имейл" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Вашето съобщение" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Изпрати съобщение
+                        </button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Адрес</h4>
+                                <p>ул. "Граф Игнатиев" 15, София</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Телефон</h4>
+                                <p>+359 2 123 4567</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Имейл</h4>
+                                <p>info@avemusica.bg</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                            YouTube
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                            Facebook
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-music"></i>
+                    <span>Ave Musica</span>
+                </div>
+                <p>&copy; 2025 Ave Musica. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html> 

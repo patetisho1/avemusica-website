@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave Musica - Хорът на музикалното изкуство</title>
+    
+    <!-- Critical CSS inline for faster loading -->
+    <style>
+        /* Critical styles for above-the-fold content */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-black: #0a0a0a;
+            --accent-gold: #ffd700;
+            --text-white: #ffffff;
+            --font-primary: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            background: var(--primary-black);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 50px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .title-highlight {
+            color: var(--accent-gold);
+            display: block;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--accent-gold);
+            color: var(--primary-black);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .hero-description { font-size: 1rem; }
+        }
+    </style>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"></noscript>
+    
+    <!-- Preload Font Awesome -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-music"></i>
+                <span>Ave Musica</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="btn">Начало</a>
+                <a href="#about" class="btn">За хора</a>
+                <a href="#contact" class="btn">Контакт</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-highlight">Ave Musica</span>
+                <span>хорът на музикалното изкуство</span>
+            </h1>
+            <p class="hero-description">
+                Открийте магията на многогласието и красотата на класическата музика. 
+                Ave Musica е хор, който съчетава традицията с модерността.
+            </p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn">
+                    <i class="fas fa-info-circle"></i>
+                    Научи повече
+                </a>
+                <a href="#contact" class="btn">
+                    <i class="fas fa-envelope"></i>
+                    Свържи се
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" style="padding: 80px 20px; max-width: 1200px; margin: 0 auto;">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: var(--accent-gold);">
+            За хора
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+            <div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Нашата история</h3>
+                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    Ave Musica е създаден през 2010 година с цел да популяризира 
+                    класическата хорова музика и да създава висококачествени музикални 
+                    преживявания.
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--accent-gold);">25</div>
+                        <div>певци</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--accent-gold);">15</div>
+                        <div>години опит</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: bold; color: var(--accent-gold);">100+</div>
+                        <div>концерта</div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <img src="https://via.placeholder.com/500x400/2c3e50/ffffff?text=Ave+Musica+Хор" 
+                     alt="Ave Musica хор" 
+                     style="max-width: 100%; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 80px 20px; background: #1a1a1a;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px; color: var(--accent-gold);">
+                Контакт
+            </h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 20px;">Свържете се с нас</h3>
+                    <div style="margin-bottom: 20px;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--accent-gold); margin-right: 10px;"></i>
+                        <span>ул. "Граф Игнатиев" 15, София</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <i class="fas fa-phone" style="color: var(--accent-gold); margin-right: 10px;"></i>
+                        <span>+359 2 123 4567</span>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <i class="fas fa-envelope" style="color: var(--accent-gold); margin-right: 10px;"></i>
+                        <span>info@avemusica.bg</span>
+                    </div>
+                </div>
+                <div>
+                    <form style="display: flex; flex-direction: column; gap: 15px;">
+                        <input type="text" placeholder="Вашето име" 
+                               style="padding: 15px; border: none; border-radius: 5px; background: #333; color: white;">
+                        <input type="email" placeholder="Вашият имейл" 
+                               style="padding: 15px; border: none; border-radius: 5px; background: #333; color: white;">
+                        <textarea placeholder="Вашето съобщение" rows="5" 
+                                  style="padding: 15px; border: none; border-radius: 5px; background: #333; color: white; resize: vertical;"></textarea>
+                        <button type="submit" class="btn" style="align-self: flex-start;">
+                            <i class="fas fa-paper-plane"></i>
+                            Изпрати съобщение
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 40px 20px; background: #000;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <i class="fas fa-music" style="color: var(--accent-gold); font-size: 1.5rem;"></i>
+            <span style="font-size: 1.5rem; font-weight: bold;">Ave Musica</span>
+        </div>
+        <p>&copy; 2025 Ave Musica. Всички права запазени.</p>
+    </footer>
+
+    <!-- Load full CSS and JS asynchronously -->
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+    <script src="js/scripts.js" defer></script>
+</body>
+</html> 
